@@ -213,6 +213,15 @@ if not vim.uv.fs_stat(lazypath) then
 end ---@diagnostic disable-next-line: undefined-field
 vim.opt.rtp:prepend(lazypath)
 
+-- Auto command to open nvim-tree on load
+local function nvim_tree_open()
+  if vim.fn.argc(-1) == 0 then
+    vim.cmd 'NvimTreeOpen'
+  end
+end
+
+vim.api.nvim_create_autocmd({ 'VimEnter' }, { callback = nvim_tree_open })
+
 -- [[ Configure and install plugins ]]
 --
 --  To check the current status of your plugins, run
@@ -875,7 +884,14 @@ require('lazy').setup({
     },
     config = function()
       vim.keymap.set('n', '<F7>', ':NvimTreeToggle<cr>')
-      require('nvim-tree').setup {}
+      require('nvim-tree').setup {
+        reload_on_bufenter = true,
+        update_focused_file = {
+          enable = true,
+          update_root = false,
+          ignore_list = {},
+        },
+      }
     end,
   },
 
