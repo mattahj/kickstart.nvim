@@ -894,6 +894,9 @@ require('lazy').setup({
           update_root = false,
           ignore_list = {},
         },
+        view = {
+          adaptive_size = true,
+        },
       }
     end,
   },
